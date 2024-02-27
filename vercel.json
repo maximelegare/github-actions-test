@@ -5,7 +5,6 @@
     "deploymentEnabled": {
       "main": false
     }
-  },
-  
-  "builds": [{ "src": "*", "use": "@vercel/static" }]
+  }
+
 }
