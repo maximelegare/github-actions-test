@@ -31,6 +31,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GHUB_TOKEN }} #Optional
           vercel-args: >-
+            --prod
             --env NEXT_PUBLIC_CLIENTVAR="${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}"
           vercel-org-id: ${{ secrets.VERCEL_ORGID}} #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECTID}} #Required
