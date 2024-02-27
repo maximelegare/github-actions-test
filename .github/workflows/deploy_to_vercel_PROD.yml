@@ -54,7 +54,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GHUB_TOKEN }}
           vercel-args: >-
-              --prod
+              
               --env NEXT_PUBLIC_CLIENTVAR="${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}"
               --env NODE_ENV="production"
           vercel-org-id: ${{ secrets.VERCEL_ORGID}}
