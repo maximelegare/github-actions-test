@@ -1,4 +1,4 @@
-name: Deploy to vercel on STAGING
+name: Deploy to vercel on PROD
 on:
   push:
     branches:
@@ -12,25 +12,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dkershner6/vercel-set-env-action@v3
-        with:
-          token: ${{ secrets.VERCEL_TOKEN }}
-          projectName: partago
-          envVariableKeys: NEXT_PUBLIC_CLIENTVAR,NODE_ENV
-        env:
-          NEXT_PUBLIC_CLIENTVAR: ${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}
-          TARGET_NEXT_PUBLIC_CLIENTVAR: preview,development,production
-          TYPE_NEXT_PUBLIC_CLIENTVAR: encrypted
+      # - uses: dkershner6/vercel-set-env-action@v3
+      #   with:
+      #     token: ${{ secrets.VERCEL_TOKEN }}
+      #     projectName: partago
+      #     envVariableKeys: NEXT_PUBLIC_CLIENTVAR,NODE_ENV
+      #   env:
+      #     NEXT_PUBLIC_CLIENTVAR: ${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}
+      #     TARGET_NEXT_PUBLIC_CLIENTVAR: preview,development,production
+      #     TYPE_NEXT_PUBLIC_CLIENTVAR: encrypted
 
-          NODE_ENV: production
-          TARGET_NODE_ENV: preview,development,production
-          TYPE_NODE_ENV: encrypted
+      #     NODE_ENV: production
+      #     TARGET_NODE_ENV: preview,development,production
+      #     TYPE_NODE_ENV: encrypted
 
       - uses: amondnet/vercel-action@v20 #deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GHUB_TOKEN }} #Optional
-          vercel-args: "" #This is what will enable us to have separation of environments
+          vercel-args: >-
+            --env NEXT_PUBLIC_CLIENTVAR="${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}"
           vercel-org-id: ${{ secrets.VERCEL_ORGID}} #Required
           vercel-project-id: ${{ secrets.VERCEL_PROJECTID}} #Required
           working-directory: ./ #If you are in a monorepo where you have backend code and frontend code, you can use this to only deploy your frontend code in the sub directory
