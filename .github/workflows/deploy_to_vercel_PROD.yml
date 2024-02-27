@@ -26,7 +26,7 @@ jobs:
       #     TARGET_NODE_ENV: preview,development,production
       #     TYPE_NODE_ENV: encrypted
 
-      - uses: amondnet/vercel-action@25.1.1 #deploy
+      - uses: amondnet/vercel-action@20 #deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
           github-token: ${{ secrets.GHUB_TOKEN }} #Optional
