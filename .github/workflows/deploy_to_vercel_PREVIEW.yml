@@ -1,4 +1,4 @@
-name: Deploy to vercel in STAGING
+name: Deploy to vercel in PREVIEW
 env:
   VERCEL_ORG_ID: ${{secrets.VERCEL_ORGID}}
   VERCEL_PROJECT_ID: ${{secrets.VERCEL_PROJECTID}}
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - preview
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
@@ -19,4 +19,4 @@ jobs:
       - name: Build project
         run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
       - name: Deploy project to Vercel
-        run: vercel deploy --prebuilt --prod --token=${{secrets.VERCEL_TOKEN}}  
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt vercel alias --token ${{ secrets.VERCEL_TOKEN }} set `cat domain.txt` github-actions-test.vercel.app 
