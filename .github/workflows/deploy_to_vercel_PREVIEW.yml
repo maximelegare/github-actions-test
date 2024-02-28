@@ -15,8 +15,8 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel environment informations
-        run: vercel pull --yes --environment=production --token=${{secrets.VERCEL_TOKEN}}
+        run: vercel pull --yes --environment=preview --token=${{secrets.VERCEL_TOKEN}}
       - name: Build project
-        run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
+        run: vercel build --token=${{secrets.VERCEL_TOKEN}}
       - name: Deploy project to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt vercel alias --token ${{ secrets.VERCEL_TOKEN }} set `cat domain.txt` github-actions-test.vercel.app 
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt vercel alias --token ${{ secrets.VERCEL_TOKEN }} set `cat domain.txt` github-actions-preview.vercel.app 
