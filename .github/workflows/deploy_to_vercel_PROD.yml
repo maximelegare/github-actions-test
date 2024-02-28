@@ -1,46 +1,9 @@
-# name: Deploy to vercel on PROD
-# on:
-#   push:
-#     branches:
-#       - main
-
-#   pull_request:
-#     branches:
-#       - main
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       # - uses: dkershner6/vercel-set-env-action@v3
-#       #   with:
-#       #     token: ${{ secrets.VERCEL_TOKEN }}
-#       #     projectName: partago
-#       #     envVariableKeys: NEXT_PUBLIC_CLIENTVAR,NODE_ENV
-#       #   env:
-#       #     NEXT_PUBLIC_CLIENTVAR: ${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}
-#       #     TARGET_NEXT_PUBLIC_CLIENTVAR: preview,development,production
-#       #     TYPE_NEXT_PUBLIC_CLIENTVAR: encrypted
-
-#       #     NODE_ENV: production
-#       #     TARGET_NODE_ENV: preview,development,production
-#       #     TYPE_NODE_ENV: encrypted
-
-#       - uses: amondnet/vercel-action@v25.1.1 #deploy
-#         with:
-#           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-#           github-token: ${{ secrets.GHUB_TOKEN }} #Optional
-#           vercel-args: >-
-#             --prod
-#             --env NEXT_PUBLIC_CLIENTVAR="${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}"
-#             --env NODE_ENV="production"
-#           vercel-org-id: ${{ secrets.VERCEL_ORGID}} #Required
-#           vercel-project-id: ${{ secrets.VERCEL_PROJECTID}} #Required
-#           working-directory: ./ #If you are in a monorepo where you have backend code and frontend code, you can use this to only deploy your frontend code in the sub directory
-#           alias-domains: ${{ secrets.DOMAIN_PROD }} #Domain name for your deployment
-
-name: Deploy to vercel on merge
+name: Deploy to vercel in PROD
+env:
+  VERCEL_ORG_ID: ${{secrets.VERCEL_ORGID}}
+  VERCEL_PROJECT_ID: ${{secrets.VERCEL_PROJECTID}}
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -48,14 +11,12 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GHUB_TOKEN }}
-          vercel-args: >-
-              
-              --env NEXT_PUBLIC_CLIENTVAR="${{ secrets.ENV_NEXT_PUBLIC_CLIENTVAR_PROD }}"
-              --env NODE_ENV="production"
-          vercel-org-id: ${{ secrets.VERCEL_ORGID}}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECTID}}
+      - uses: actions/checkout@v3
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel environment informations
+        run: vercel pull --yes --environment=production --token=${{secrets.VERCEL_TOKEN}}
+      - name: Build project
+        run: vercel build --prod --token=${{secrets.VERCEL_TOKEN}}
+      - name: Deploy project to Vercel
+        run: vercel deploy --prebuild --prod --token=${{secrets.VERCEL_TOKEN}}  
