@@ -19,4 +19,4 @@ jobs:
       - name: Build project
         run: vercel build --token=${{secrets.VERCEL_TOKEN}}
       - name: Deploy project to Vercel
-        run: vercel deploy > domain.txt echo domain.txt --prebuilt --token=${{ secrets.VERCEL_TOKEN }}  vercel alias set `cat domain.txt` github-actions-tests-preview.vercel.app
+        run: vercel deploy   --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt  echo domain.txt
