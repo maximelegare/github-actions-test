@@ -20,4 +20,4 @@ jobs:
         run: vercel build --token=${{secrets.VERCEL_TOKEN}}
       - name: Deploy project to Vercel
         run: |
-          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" vercel alias  --token=${{ secrets.VERCEL_TOKEN }} set "$url" github-actions-test-preview.app
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" vercel alias  --token=${{ secrets.VERCEL_TOKEN }} set $(url) github-actions-test-preview.app
